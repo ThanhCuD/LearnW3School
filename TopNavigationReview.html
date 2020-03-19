@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>TopNagigation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#Link">Link</a>
+    </div>
+    <div>
+        <ul class="ul">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </div>
+  </body>
+</html>
+<style>
+    .ul{
+        background-color:blueviolet;
+        overflow: hidden;
+    }
+    .ul li{
+        list-style-type: none;
+        float: left;
+        padding: 14px 16px;
+    }
+    .ul li a{
+        text-decoration: none;
+    }
+    .topnav{
+        background-color: black;
+        overflow: hidden;
+    }
+    .topnav a{
+        padding: 14px 16px;
+        text-decoration: none;
+        text-align: center;
+        size: 17px;
+        float: left;
+    }
+    .topnav .active{
+        background-color: coral;
+    }
+    .topnav a:hover{
+        background-color: darkorange;
+    }
+</style>
+<script>
+    $( document ).ready(function() {
+        $(".topnav a").click(function(){
+            $(".topnav").find(".active").removeClass("active");
+            $(this).addClass("active");
+        });
+    });
+</script>
