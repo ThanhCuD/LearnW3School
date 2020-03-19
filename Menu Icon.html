@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>How To Create an Menu ICon</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+  </head>
+  <body>
+    <div class="menuIcon" onclick="myfuntion(this)">
+        <div class="item1"></div>
+        <div class="item2"></div>
+        <div class="item3"></div>
+    </div>
+
+  </body>
+</html>
+<style>
+  .menuIcon{
+      padding: 20px;
+  }
+  .item1, .item2, .item3{
+      background-color: black;
+      height: 5px;
+      width: 35px;
+      margin: 6px 0px;
+  }
+  .change .item1{
+      transform: rotate(-45deg) translate(-9px,6px);
+  }
+  .change .item3{
+      transform: rotate(45deg) translate(-8px,-8px);
+  }
+  .change .item2{
+     opacity: 0;
+  }
+
+</style>
+<script>
+   function myfuntion(x){
+        x.classList.toggle("change")
+    }
+</script>
