@@ -31,6 +31,7 @@ function direction(e){
   }
 }
 function draw(){
+  //requestAnimationFrame(draw)
   ctx.clearRect(0,0,608,608);
   for(let i=0;i<snake.length;i++){
     ctx.fillStyle = (i!=0)? "green":"white";
@@ -75,4 +76,4 @@ function draw(){
     ctx.fillText(score,2*box,1.6*box);
 }
 let game = setInterval(draw,100)
-
+//draw();
