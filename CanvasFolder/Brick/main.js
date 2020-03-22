@@ -36,6 +36,18 @@ function checkCollision(rect1,rect2){
     rect1.y + rect1.height >= rect2.y);
     return result;
 }
+function isCollision1vsArr(rect1,arr){
+    for (let i = 0; i < arr.length; i++) {
+        var rect2  = {
+            x: arr[i].x, y: arr[i].y, width: box*2, height: box*2
+        }
+        var result = checkCollision(rect1,rect2);
+        if(result){
+            return true;     
+        }
+    }
+    return false;
+}
 function draw(){
     ctx.clearRect(0,0,480,480);
     ctx.strokeRect(0,0,480,480);
@@ -43,11 +55,21 @@ function draw(){
     ctx.fillRect(shape.x,shape.y,box*2,box*2);
     
     if(d=='L'){
-        shape.x-=box;
+        let rect1  = {
+            x: shape.x-box, y: shape.y, width: box*2, height: box*2
+        };
+        if(!isCollision1vsArr(rect1,arr)){
+            shape.x-=box;
+        }
         d = 'None';
     }
     if(d=='R'){
-        shape.x +=box;
+        let rect1  = {
+            x: shape.x+box, y: shape.y, width: box*2, height: box*2
+        };
+        if(!isCollision1vsArr(rect1,arr)){
+            shape.x+=box;
+        }
         d = 'None';
     }
     
