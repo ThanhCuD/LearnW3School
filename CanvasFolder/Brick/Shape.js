@@ -6,7 +6,6 @@ class Shape{
         this.type = type,
         this.ctx = ctx,
         this.arrRect=[];
-        
     };
     draw(){
         this.arrRect = this.getArrayRect();
@@ -58,6 +57,19 @@ class Shape{
                 break;
         }
         return result;
+    }
+    Transform(){
+        if(this.type=="I"){
+            return "Ihori";
+        }
+        else if(this.type=="Ihori"){
+            return "I";
+        }else if(this.type=="square"){
+            return "square"
+        }
+        else if(this.type=="L"){
+            return "L"
+        }
     }
 }
 function distaincePointToLine(x, y, a, b, c) {

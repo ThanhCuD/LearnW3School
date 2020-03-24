@@ -5,10 +5,12 @@ let box = 15;
 
 let shape = new Shape(8 * box, 0 * box, box, "square", ctx);
 let arrTypeShape = ["square", "I", "L","Ihori"];
-//let arrTypeShape = ["Ihori"];
+//let arrTypeShape = ["I"];
+let score = 0;
 let arr = [];
 let d;
 let flgStop = false;
+let flgTrainform = false;
 let arrCheckWin = [];
 document.addEventListener("keydown", direction);
 
@@ -17,8 +19,16 @@ let game = setInterval(draw, 100);
 function draw() {
     drawScreen();
     shape.draw();
+    ctx.fillText(score,2*box,2*box,5000);
+    ctx.font = "30px Arial";
+    if(flgTrainform){
+        var temp = new Shape(shape.x, shape.y,shape.size, shape.Transform(),shape.ctx);
+        if(!isCollision1vsArr(temp,arr)){
+            shape = temp;
+        }
+        flgTrainform=false;
+    }
     let shapeTemp = new Shape(shape.x, shape.y, shape.size, shape.type, shape.ctx);
-
     if (d == 'L') {
         shapeTemp.x -= box;
         if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -5 * box,"L") >0) {
@@ -45,6 +55,7 @@ function draw() {
         if(arrWin.length!=0){
             for (let index = 0; index < arrWin.length; index++) {
                 arr = pushDownTheArr(arrWin[index],arr);
+                score++;
             }
         }
         shape = newRadomShape();
@@ -75,6 +86,7 @@ function draw() {
         if(arrWin.length!=0){
             for (let index = 0; index < arrWin.length; index++) {
                 arr = pushDownTheArr(arrWin[index],arr);
+                score++;
             }
         }
         shape = newRadomShape();
@@ -95,8 +107,11 @@ function direction(e) {
     else if (code == 39) {
         d = 'R'
     }
-    else if (code == 32) {
+    else if (code == 83) {
         flgStop = !flgStop;
+    }
+    else if(code == 32){
+        flgTrainform = true;
     }
 }
 
@@ -163,16 +178,16 @@ function CheckWin() {
     return rs;
 }
 function pushDownTheArr(n,arr){
-    var arr = arr.filter(_=>_.y/15<n);
+    var arr1 = arr.filter(_=>_.y/15<n);
     var arr2 = arr.filter(_=>_.y/15>n);
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = {
-          x: arr[i].x,
-          y: arr[i].y+box,
+    for (let i = 0; i < arr1.length; i++) {
+        arr1[i] = {
+          x: arr1[i].x,
+          y: arr1[i].y+box,
           height: box,
           width: box
         }        
     }
-    var rs = arr.concat(arr2);
+    var rs = arr1.concat(arr2);
     return rs;
 }
