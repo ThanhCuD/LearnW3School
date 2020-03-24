@@ -33,8 +33,23 @@ class Shape {
             case "L1":
                 result = genL1(this.x, this.y, this.size);
                 break;
+            case "L2":
+                result = genL2(this.x, this.y, this.size);
+                break;
+            case "L3":
+                result = genL3(this.x, this.y, this.size);
+                break;
             case "TInverSion":
                 result = genTInverSion(this.x, this.y, this.size);
+                break;
+            case "TInverSion1":
+                result = genTInverSion1(this.x, this.y, this.size);
+                break;
+            case "TInverSion2":
+                result = genTInverSion2(this.x, this.y, this.size);
+                break;
+            case "TInverSion3":
+                result = genTInverSion3(this.x, this.y, this.size);
                 break;
         }
         return result;
@@ -53,6 +68,7 @@ class Shape {
                 };
                 break;
             case "L":
+            case "L2":
                 if (direct == "R") {
                     result -= this.size * 2;
                 }
@@ -60,6 +76,14 @@ class Shape {
             case "L1":
                 if (direct == "R") {
                     result -= this.size * 3;
+                }
+                break;
+            case "L3":
+                if (direct == "R") {
+                    result -= this.size;
+                }
+                else if (direct == "L") {
+                    result -= this.size * 2;
                 }
                 break;
             case "Ihori":
@@ -72,6 +96,27 @@ class Shape {
                     result -= this.size * 2;
                 } else if (direct == "L") {
                     result -= this.size;
+                }
+                break;
+            case "TInverSion2":
+                if (direct == "R") {
+                    result -= this.size * 2;
+                } else if (direct == "L") {
+                    result -= this.size;
+                }
+                break;
+            case "TInverSion1":
+
+                if (direct == "R") {
+                    result -= this.size;
+                } else if (direct == "L") {
+                    result -= this.size;
+                }
+                break;
+            case "TInverSion3":
+                if (direct == "R") {
+                    result -= this.size*2;
+                } else if (direct == "L") {
                 }
                 break;
         }
@@ -90,7 +135,24 @@ class Shape {
             return "L1"
         }
         else if (this.type == "L1") {
+            return "L2"
+        }
+        else if (this.type == "L2") {
+            return "L3"
+        } else if (this.type == "L3") {
             return "L"
+        }
+        else if (this.type == "TInverSion") {
+            return "TInverSion1"
+        }
+        else if (this.type == "TInverSion1") {
+            return "TInverSion2"
+        }
+        else if (this.type == "TInverSion2") {
+            return "TInverSion3"
+        }
+        else if (this.type == "TInverSion3") {
+            return "TInverSion"
         }
     }
 }
@@ -98,83 +160,8 @@ function distaincePointToLine(x, y, a, b, c) {
     var result = Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
     return result;
 }
-function genSquare(x, y, size) {
-    var rs = [];
-    for (let i = 0; i < 2; i++) {
-        for (let j = 0; j < 2; j++) {
-            var temp = {
-                x: x + i * size,
-                y: y + j * size,
-                height: size,
-                width: size
-            }
-            rs.push(temp);
-        }
-    }
-    return rs;
-}
-function genTInverSion(x, y, size) {
-    var rs = [];
-    var temp = {
-        x: x,
-        y: y,
-        height: size,
-        width: size
-    };
-    rs.push(temp);
-    for (let index = 0; index < 3; index++) {
-        rs.push({
-            x: x - size + index * size,
-            y: y + size,
-            height: size,
-            width: size
-        });
-    }
-    return rs;
-}
-function genI(x, y, size) {
-    var rs = [];
-    for (let index = 0; index < 3; index++) {
-        rs.push({
-            x: x,
-            y: y + index * size,
-            height: size,
-            width: size
-        })
-    }
-    return rs;
-}
-function genL(x, y, size) {
-    var rs = [];
-    for (let index = 0; index < 3; index++) {
-        rs.push({
-            x: x,
-            y: y + index * size,
-            height: size,
-            width: size
-        })
-    }
-    rs.push({
-        x: x + size,
-        y: y + 2 * size,
-        height: size,
-        width: size
-    })
-    return rs;
-}
 
-function genIHorizoltal(x, y, size) {
-    var rs = [];
-    for (let index = 0; index < 3; index++) {
-        rs.push({
-            x: x + index * size,
-            y: y,
-            height: size,
-            width: size
-        })
-    }
-    return rs;
-}
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -182,22 +169,4 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
-function genL1(x, y, size) {
-    var rs = [];
-    for (let index = 0; index < 3; index++) {
-        rs.push({
-            x: x + index * size,
-            y: y,
-            height: size,
-            width: size
-        })
-    }
-    rs.push({
-        x: x,
-        y: y + size,
-        height: size,
-        width: size
-    });
-    return rs;
 }

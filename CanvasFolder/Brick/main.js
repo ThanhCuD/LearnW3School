@@ -4,17 +4,19 @@ let ctx = canvas.getContext("2d");
 let box = 15;
 
 let shape = new Shape(8 * box, 0 * box, box, "square", ctx);
-//let arrTypeShape = ["square", "I", "L","Ihori","TInverSion"];
-let arrTypeShape = ["L1"];
+//let arrTypeShape = ["square", "I", "L","Ihori","TInverSion",
+//"TInverSion1","TInverSion2","TInverSion3","TInverSion4","L1","L2","L3"];
+let arrTypeShape = ["TInverSion2"];
 let score = 0;
 let arr = [];
 let d;
 let flgStop = false;
 let flgTrainform = false;
 let arrCheckWin = [];
+let isSpeed = false;
 document.addEventListener("keydown", direction);
 
-let game = setInterval(draw, 100);
+let game = setInterval(draw,100);
 
 function draw() {
     drawScreen();
@@ -66,6 +68,7 @@ function draw() {
     let dis = shape.type == "square" ? box * 2 : box * 3;
     switch (shape.type) {
         case "square":
+        case "L3":
             dis = box * 2;
             break;
         case "I":
@@ -81,7 +84,12 @@ function draw() {
             dis = box;
             break;
         case "TInverSion":
+        case "TInverSion1":
+        case "TInverSion3":
             dis = box * 2;
+            break;
+        case "TInverSion2":
+            dis = box;
             break;
     }
     if (distaincePointToLine(shape.x, shape.y, 0, 1, -480) == dis) {
@@ -104,6 +112,10 @@ function draw() {
 
     if (!flgStop) {
         shape.y += box;
+        if(isSpeed){
+            shape.y+=box;
+            isSpeed = false;
+        }
     }
 }
 function direction(e) {
@@ -120,12 +132,11 @@ function direction(e) {
     else if (code == 32) {
         flgTrainform = true;
     }
+    else if (code == 40) {
+        isSpeed= true;
+    }
 }
 
-function distaincePointToLine(x, y, a, b, c) {
-    var result = Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
-    return result;
-}
 function checkCollisionRect(rect1, rect2) {
     var result = (rect1.x < rect2.x + rect2.width &&
         rect1.x + rect1.width > rect2.x &&
