@@ -24,12 +24,45 @@ class Shape{
                 case "I":
                     result = genI(this.x,this.y,this.size);
                     break;
+                case "Ihori":
+                    result = genIHorizoltal(this.x,this.y,this.size);
+                    break;
                 case "L":
                     result = genL(this.x,this.y,this.size);
                     break;
             }
         return result;
+    }
+    getDistaince(a,b,c,direct){
+        var result = distaincePointToLine(this.x,this.y,a,b,c);
+        switch(this.type){
+            case "square":
+                if(direct=="R"){
+                    result-=this.size*2;
+                }
+                break;
+            case "I":
+                if(direct=="R"){
+                    result-=this.size*1;
+                };
+                break;
+            case "L":
+                if(direct=="R"){
+                    result-=this.size*2;
+                }
+                break;
+            case "Ihori":
+                if(direct=="R"){
+                    result-=this.size*3;
+                }
+                break;
         }
+        return result;
+    }
+}
+function distaincePointToLine(x, y, a, b, c) {
+    var result = Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
+    return result;
 }
 function genSquare(x,y,size){
     var rs = [];
@@ -75,5 +108,19 @@ function genL(x,y,size){
         height: size,
         width: size
     })
+    return rs;
+}
+
+function genIHorizoltal(x,y,size)
+{
+    var rs = [];
+    for (let index = 0; index < 3; index++) {
+        rs.push({
+            x: x+ index*size,
+            y: y,
+            height: size,
+            width: size
+        })
+    }
     return rs;
 }

@@ -4,14 +4,15 @@ let ctx = canvas.getContext("2d");
 let box = 15;
 
 let shape = new Shape(8 * box, 0 * box, box, "square", ctx);
-let arrTypeShape = ["square", "I", "L"];
+let arrTypeShape = ["square", "I", "L","Ihori"];
+//let arrTypeShape = ["Ihori"];
 let arr = [];
 let d;
 let flgStop = false;
 let arrCheckWin = [];
 document.addEventListener("keydown", direction);
 
-let game = setInterval(draw, 50);
+let game = setInterval(draw, 100);
 
 function draw() {
     drawScreen();
@@ -20,15 +21,15 @@ function draw() {
 
     if (d == 'L') {
         shapeTemp.x -= box;
-        if (!isCollision1vsArr(shapeTemp, arr) && distaincePointToLine(shape.x, shape.y, 1, 0, -5 * box) >= box) {
+        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -5 * box,"L") >0) {
             shape.x -= box;
         }
         d = 'None';
     }
 
-    if (d == 'R') {
+    else if (d == 'R') {
         shapeTemp.x += box;
-        if (!isCollision1vsArr(shapeTemp, arr) && distaincePointToLine(shape.x, shape.y, 1, 0, -18 * box) >= 3 * box) {
+        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -18 * box,"R") > 0) {
             shape.x += box;
         }
         d = 'None';
@@ -36,27 +37,50 @@ function draw() {
 
     var rs = isCollision1vsArr(shape, arr);
     if (rs) {
-        let nShape = new Shape(shape.x, shape.y, box, shape.type, ctx);
-        // var lst = shape.getArrayRect();
-        // for (let index = 0; index < lst.length; index++) {
-                
-        // }
-        arr.push(nShape);
-        // checkwin
-
+        var lst = shape.getArrayRect();
+        for (let index = 0; index < lst.length; index++) {
+            arr.push(lst[index]);
+        } 
+        var arrWin = CheckWin();
+        if(arrWin.length!=0){
+            for (let index = 0; index < arrWin.length; index++) {
+                arr = pushDownTheArr(arrWin[index],arr);
+            }
+        }
         shape = newRadomShape();
     }
 
+
     let dis = shape.type == "square" ? box * 2 : box * 3;
+    switch(shape.type){
+        case "square":
+            dis = box*2;
+            break;
+        case "I":
+            dis = box*3;
+            break;
+        case "L":
+            dis=box*3;
+            break;
+        case "Ihori":
+            dis=box;
+            break;
+        }
     if (distaincePointToLine(shape.x, shape.y, 0, 1, -480) == dis) {
-        let nShape = new Shape(shape.x, shape.y, box, shape.type, ctx);
-        arr.push(nShape);
-        // checkwin
-        //var rs = CheckWin();
+        var lst = shape.getArrayRect();
+        for (let index = 0; index < lst.length; index++) {
+            arr.push(lst[index]);
+        }
+        var arrWin = CheckWin();
+        if(arrWin.length!=0){
+            for (let index = 0; index < arrWin.length; index++) {
+                arr = pushDownTheArr(arrWin[index],arr);
+            }
+        }
         shape = newRadomShape();
     }
     for (let i = 0; i < arr.length; i++) {
-        arr[i].draw();
+        drawBox(arr[i].x,arr[i].y);
     }
 
     if (!flgStop) {
@@ -90,12 +114,9 @@ function checkCollisionRect(rect1, rect2) {
 function isCollision1vsArr(rect1, arr) {
     var tempRect = rect1.getArrayRect();
     for (let i = 0; i < arr.length; i++) {
-        var tempArr = arr[i].getArrayRect();
-        for (let j = 0; j < tempArr.length; j++) {
-            for (let k = 0; k < tempRect.length; k++) {
-                if (checkCollisionRect(tempRect[k], tempArr[j])) {
-                    return true;
-                }
+        for (let k = 0; k < tempRect.length; k++) {
+            if (checkCollisionRect(tempRect[k], arr[i])) {
+                return true;
             }
         }
     }
@@ -112,21 +133,46 @@ function drawScreen() {
     ctx.clearRect(0, 0, 600, 600);
     ctx.beginPath();
     ctx.moveTo(box * 5, 0);
-    ctx.lineTo(box * 5, box*32);
-    ctx.lineTo(box * 18, box*32);
+    ctx.lineTo(box * 5, box * 32);
+    ctx.lineTo(box * 18, box * 32);
     ctx.lineTo(box * 18, 0);
     ctx.stroke();
     ctx.closePath();
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "black";
 }
-function CheckWin(){
-    if(arr.length==0) return false;
-    for(let h=0;i<32;i++){
-        for(let w=0;w<13;w++){
-           for(let i=0;i<arr.length;i++){
-
-           } 
+function drawBox(x,y){
+    ctx.fillRect(x,y,box,box);
+    ctx.strokeRect(x,y,box,box);
+}
+function CheckWin() {
+    if (arr.length == 0) return [];
+    var rs = [];
+    for (let index = 0; index <= 32; index++) {
+        var winCount = 0;
+        for (let i = 0; i < arr.length; i++) {
+            if(arr[i].y/15==index){
+                winCount++;
+            }            
+        }        
+        if(winCount==13) 
+        {
+            rs.push(index)
         }
     }
+    return rs;
+}
+function pushDownTheArr(n,arr){
+    var arr = arr.filter(_=>_.y/15<n);
+    var arr2 = arr.filter(_=>_.y/15>n);
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = {
+          x: arr[i].x,
+          y: arr[i].y+box,
+          height: box,
+          width: box
+        }        
+    }
+    var rs = arr.concat(arr2);
+    return rs;
 }
