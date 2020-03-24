@@ -11,48 +11,69 @@ class Shape{
     draw(){
         this.arrRect = this.getArrayRect();
         for (let i = 0; i < this.arrRect.length; i++) {
-            this.ctx.fillRect(this.arrRect[i].x,this.arrRect[i].y,this.arrRect[i].height,this.arrRect[i].width);            
+            this.ctx.fillRect(this.arrRect[i].x,this.arrRect[i].y,this.arrRect[i].width,this.arrRect[i].height);
+            this.ctx.strokeRect(this.arrRect[i].x,this.arrRect[i].y,this.arrRect[i].width,this.arrRect[i].height);
         }
     }
     getArrayRect(){
             let result = [];
             switch(this.type){
                 case "square":
-                    var objShape = {
-                        x : this.x,
-                        y: this.y,
-                        height: this.size*2,
-                        width : this.size*2
-                    }
-                    result.push(objShape);
+                    result = genSquare(this.x,this.y,this.size);
                     break;
                 case "I":
-                    var objShape = {
-                        x : this.x,
-                        y: this.y,
-                        height: this.size*1,
-                        width : this.size*3
-                    }
-                    result.push(objShape);
+                    result = genI(this.x,this.y,this.size);
                     break;
                 case "L":
-                    var objShape = {
-                        x : this.x,
-                        y: this.y,
-                        height: this.size*1,
-                        width : this.size*3
-                    };
-                    var objShape2 = {
-                        x : this.x+this.size,
-                        y: this.y+this.size*2,
-                        height: this.size*1,
-                        width : this.size*1
-                    }
-                    result.push(objShape);
-                    result.push(objShape2);
+                    result = genL(this.x,this.y,this.size);
                     break;
             }
         return result;
         }
-        
+}
+function genSquare(x,y,size){
+    var rs = [];
+    for(let i = 0; i<2;i++){
+        for(let j = 0; j<2;j++){
+            var temp = {
+                x: x+i*size,
+                y: y+j*size,
+                height: size,
+                width: size
+            }
+            rs.push(temp);
+        }
+    }
+    return rs;
+}
+function genI(x,y,size)
+{
+    var rs = [];
+    for (let index = 0; index < 3; index++) {
+        rs.push({
+            x: x,
+            y: y+ index*size,
+            height: size,
+            width: size
+        })
+    }
+    return rs;
+}
+function genL(x,y,size){
+    var rs = [];
+    for (let index = 0; index < 3; index++) {
+        rs.push({
+            x: x,
+            y: y+ index*size,
+            height: size,
+                width: size
+        })
+    }
+    rs.push({
+        x:x+size,
+        y:y+2*size,
+        height: size,
+        width: size
+    })
+    return rs;
 }
