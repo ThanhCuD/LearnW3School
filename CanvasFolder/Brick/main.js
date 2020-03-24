@@ -4,8 +4,8 @@ let ctx = canvas.getContext("2d");
 let box = 15;
 
 let shape = new Shape(8 * box, 0 * box, box, "square", ctx);
-let arrTypeShape = ["square", "I", "L","Ihori"];
-//let arrTypeShape = ["I"];
+//let arrTypeShape = ["square", "I", "L","Ihori","TInverSion"];
+let arrTypeShape = ["L1"];
 let score = 0;
 let arr = [];
 let d;
@@ -19,19 +19,20 @@ let game = setInterval(draw, 100);
 function draw() {
     drawScreen();
     shape.draw();
-    ctx.fillText(score,2*box,2*box,5000);
-    ctx.font = "30px Arial";
-    if(flgTrainform){
-        var temp = new Shape(shape.x, shape.y,shape.size, shape.Transform(),shape.ctx);
-        if(!isCollision1vsArr(temp,arr)){
+    ctx.fillText("score :", 10, 2 * box, 5000);
+    ctx.fillText(score, 10, 4 * box, 5000);
+    ctx.font = "20px Arial";
+    if (flgTrainform) {
+        var temp = new Shape(shape.x, shape.y, shape.size, shape.Transform(), shape.ctx);
+        if (!isCollision1vsArr(temp, arr)) {
             shape = temp;
         }
-        flgTrainform=false;
+        flgTrainform = false;
     }
     let shapeTemp = new Shape(shape.x, shape.y, shape.size, shape.type, shape.ctx);
     if (d == 'L') {
         shapeTemp.x -= box;
-        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -5 * box,"L") >0) {
+        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -5 * box, "L") > 0) {
             shape.x -= box;
         }
         d = 'None';
@@ -39,7 +40,7 @@ function draw() {
 
     else if (d == 'R') {
         shapeTemp.x += box;
-        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -18 * box,"R") > 0) {
+        if (!isCollision1vsArr(shapeTemp, arr) && shape.getDistaince(1, 0, -18 * box, "R") > 0) {
             shape.x += box;
         }
         d = 'None';
@@ -50,11 +51,11 @@ function draw() {
         var lst = shape.getArrayRect();
         for (let index = 0; index < lst.length; index++) {
             arr.push(lst[index]);
-        } 
+        }
         var arrWin = CheckWin();
-        if(arrWin.length!=0){
+        if (arrWin.length != 0) {
             for (let index = 0; index < arrWin.length; index++) {
-                arr = pushDownTheArr(arrWin[index],arr);
+                arr = pushDownTheArr(arrWin[index], arr);
                 score++;
             }
         }
@@ -63,36 +64,42 @@ function draw() {
 
 
     let dis = shape.type == "square" ? box * 2 : box * 3;
-    switch(shape.type){
+    switch (shape.type) {
         case "square":
-            dis = box*2;
+            dis = box * 2;
             break;
         case "I":
-            dis = box*3;
+            dis = box * 3;
             break;
         case "L":
-            dis=box*3;
+            dis = box * 3;
+            break;
+        case "L1":
+            dis = box * 2;
             break;
         case "Ihori":
-            dis=box;
+            dis = box;
             break;
-        }
+        case "TInverSion":
+            dis = box * 2;
+            break;
+    }
     if (distaincePointToLine(shape.x, shape.y, 0, 1, -480) == dis) {
         var lst = shape.getArrayRect();
         for (let index = 0; index < lst.length; index++) {
             arr.push(lst[index]);
         }
         var arrWin = CheckWin();
-        if(arrWin.length!=0){
+        if (arrWin.length != 0) {
             for (let index = 0; index < arrWin.length; index++) {
-                arr = pushDownTheArr(arrWin[index],arr);
+                arr = pushDownTheArr(arrWin[index], arr);
                 score++;
             }
         }
         shape = newRadomShape();
     }
     for (let i = 0; i < arr.length; i++) {
-        drawBox(arr[i].x,arr[i].y);
+        drawBox(arr[i].x, arr[i].y);
     }
 
     if (!flgStop) {
@@ -110,7 +117,7 @@ function direction(e) {
     else if (code == 83) {
         flgStop = !flgStop;
     }
-    else if(code == 32){
+    else if (code == 32) {
         flgTrainform = true;
     }
 }
@@ -156,9 +163,9 @@ function drawScreen() {
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "black";
 }
-function drawBox(x,y){
-    ctx.fillRect(x,y,box,box);
-    ctx.strokeRect(x,y,box,box);
+function drawBox(x, y) {
+    ctx.fillRect(x, y, box, box);
+    ctx.strokeRect(x, y, box, box);
 }
 function CheckWin() {
     if (arr.length == 0) return [];
@@ -166,27 +173,26 @@ function CheckWin() {
     for (let index = 0; index <= 32; index++) {
         var winCount = 0;
         for (let i = 0; i < arr.length; i++) {
-            if(arr[i].y/15==index){
+            if (arr[i].y / 15 == index) {
                 winCount++;
-            }            
-        }        
-        if(winCount==13) 
-        {
+            }
+        }
+        if (winCount == 13) {
             rs.push(index)
         }
     }
     return rs;
 }
-function pushDownTheArr(n,arr){
-    var arr1 = arr.filter(_=>_.y/15<n);
-    var arr2 = arr.filter(_=>_.y/15>n);
+function pushDownTheArr(n, arr) {
+    var arr1 = arr.filter(_ => _.y / 15 < n);
+    var arr2 = arr.filter(_ => _.y / 15 > n);
     for (let i = 0; i < arr1.length; i++) {
         arr1[i] = {
-          x: arr1[i].x,
-          y: arr1[i].y+box,
-          height: box,
-          width: box
-        }        
+            x: arr1[i].x,
+            y: arr1[i].y + box,
+            height: box,
+            width: box
+        }
     }
     var rs = arr1.concat(arr2);
     return rs;
