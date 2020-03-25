@@ -3,10 +3,11 @@ canvas.style.background = "gray";
 let ctx = canvas.getContext("2d");
 let box = 15;
 
-let shape = new Shape(8 * box, 0 * box, box, "square", ctx);
-//let arrTypeShape = ["square", "I", "L","Ihori","TInverSion",
-//"TInverSion1","TInverSion2","TInverSion3","TInverSion4","L1","L2","L3"];
-let arrTypeShape = ["TInverSion2"];
+let arrTypeShape = ["square", "I", "L","Ihori","TInverSion",
+"TInverSion1","TInverSion2","TInverSion3","L1","L2","L3"];
+//let arrTypeShape = ["TInverSion2"];
+let shape = newRadomShape();
+
 let score = 0;
 let arr = [];
 let d;
@@ -17,7 +18,7 @@ let isSpeed = false;
 document.addEventListener("keydown", direction);
 
 let game = setInterval(draw,100);
-
+//function distainceShapeToLeft()
 function draw() {
     drawScreen();
     shape.draw();
@@ -26,7 +27,12 @@ function draw() {
     ctx.font = "20px Arial";
     if (flgTrainform) {
         var temp = new Shape(shape.x, shape.y, shape.size, shape.Transform(), shape.ctx);
-        if (!isCollision1vsArr(temp, arr)) {
+        let arrX = temp.getArrayRect().map(_=>_.x);
+        let xmax = Math.max.apply(Math,arrX);
+        let distainceToRight = distaincePointToLine(xmax,0,1,0,-18*box);
+        let xmin = Math.min.apply(Math,arrX);
+        let distainceToLeft = distaincePointToLine(xmin,0,1,0,-5*box);
+        if (!isCollision1vsArr(temp, arr)&&xmin>=box*5 && xmax<=17*box) {
             shape = temp;
         }
         flgTrainform = false;
@@ -158,7 +164,7 @@ function isCollision1vsArr(rect1, arr) {
 
 function newRadomShape() {
     var numRandom = Math.floor(Math.random() * arrTypeShape.length);
-    var result = new Shape(8 * box, 0 * box, box, arrTypeShape[numRandom], ctx);
+    var result = new Shape(10 * box, 0 * box, box, arrTypeShape[numRandom], ctx);
     return result;
 }
 
@@ -173,6 +179,7 @@ function drawScreen() {
     ctx.closePath();
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "black";
+    ctx.fillText("Enter Space to change",20*box,5*box);
 }
 function drawBox(x, y) {
     ctx.fillRect(x, y, box, box);
