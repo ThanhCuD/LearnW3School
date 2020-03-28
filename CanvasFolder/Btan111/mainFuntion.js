@@ -2,7 +2,8 @@ function draw(){
     drawScreen();
     //drawSquare();
     if(fgShooting){
-        circle.y-=box/10;
+        circle.y-=canhDoiStart/1000;
+        circle.x-=canhKeStart/1000;
         if(circle.y==box) {
             fgShooting=false;
         }
@@ -37,30 +38,38 @@ function drawSquare(){
 
 function drawArrow(mouseX,mouseY,rootX,rootY){
     var ptdd = ptddThrough2Point(mouseX,mouseY,rootX,rootY);
-    let pointMeet = {
+    let pointMeetR = {
         x : xsize,
         y : (-ptdd.a*xsize-ptdd.c)/ptdd.b
     }
-    ctx.beginPath();
-    ctx.moveTo(rootX,rootY);
-    ctx.lineTo(pointMeet.x,pointMeet.y);
-    ctx.stroke();
-    ctx.closePath();
-
-    let k = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
-    let d = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
-
-    let tanAlpha = d/k;
-    var ptdd2 = ptdd1ConerAnd1Point(tanAlpha,pointMeet.x,pointMeet.y);
-    let pointMeet2 = {
+    let pointMeetL = {
         x : 0,
-        y : -ptdd2.c/ptdd2.b
+        y : -ptdd.c/ptdd.b
     }
     ctx.beginPath();
-    ctx.moveTo(pointMeet.x,pointMeet.y);
-    ctx.lineTo(pointMeet2.x,pointMeet2.y);
+    ctx.moveTo(rootX,rootY);
+    let pointChoosed = mouseX<=rootX?pointMeetL:pointMeetR
+    ctx.lineTo(pointChoosed.x,pointChoosed.y);
     ctx.stroke();
     ctx.closePath();
+    
+    canhKeStart = distance2Point(xstart,ystart,xstart+xsize,ystart+ysize);
+    canhDoiStart =  distance2Point(xstart+xsize,ystart+ysize,pointChoosed.x,pointChoosed.y);
+
+    // let k = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
+    // let d = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
+
+    // let tanAlpha = d/k;
+    // var ptdd2 = ptdd1ConerAnd1Point(tanAlpha,pointMeet.x,pointMeet.y);
+    // let pointMeet2 = {
+    //     x : 0,
+    //     y : -ptdd2.c/ptdd2.b
+    // }
+    // ctx.beginPath();
+    // ctx.moveTo(pointMeet.x,pointMeet.y);
+    // ctx.lineTo(pointMeet2.x,pointMeet2.y);
+    // ctx.stroke();
+    // ctx.closePath();
 }
 // event 
 function shoot(event){

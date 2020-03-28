@@ -17,6 +17,8 @@ let rootPoint = {
 }
 let circle = new Circle(xstart+ 30*box,ystart+ysize-box,box,"pink");
 let fgShooting = false;
+let canhDoiStart;
+let canhKeStart;
 document.addEventListener("mousemove",mouseMove);
 document.addEventListener("keydown",shoot);
 
