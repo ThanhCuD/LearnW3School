@@ -47,16 +47,15 @@ function drawArrow(mouseX,mouseY,rootX,rootY){
     ctx.stroke();
     ctx.closePath();
 
-    let d = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
-    let k = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
+    let k = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
+    let d = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
 
-    let angleDeg = getAngleDeg(d,k);
-    var ptdd2 = ptdd1ConerAnd1Point(Math.tan(angleDeg),pointMeet.x,pointMeet.y);
+    let tanAlpha = d/k;
+    var ptdd2 = ptdd1ConerAnd1Point(tanAlpha,pointMeet.x,pointMeet.y);
     let pointMeet2 = {
         x : 0,
-        y : ptdd2.b
+        y : -ptdd2.c/ptdd2.b
     }
-    ctx.fillText(pointMeet.y-Math.tan(angleDeg)*pointMeet.x,200,200);
     ctx.beginPath();
     ctx.moveTo(pointMeet.x,pointMeet.y);
     ctx.lineTo(pointMeet2.x,pointMeet2.y);
@@ -82,13 +81,11 @@ function ptddThrough2Point(x1,y1,x2,y2){
         c :b
     }
 }
-function ptdd1ConerAnd1Point(tanX,x1,y1){
-    // y = ax+b;
-    let b = y1-tanX*x1;
+function ptdd1ConerAnd1Point(tanX,x0,y0){
     return {
-        a :tanX,
-        b :-1,
-        c :b
+        a : tanX,
+        b : -1,
+        c :y0-tanX*x0
     }
 }
 
