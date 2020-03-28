@@ -46,6 +46,22 @@ function drawArrow(mouseX,mouseY,rootX,rootY){
     ctx.lineTo(pointMeet.x,pointMeet.y);
     ctx.stroke();
     ctx.closePath();
+
+    let d = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
+    let k = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
+
+    let angleDeg = getAngleDeg(d,k);
+    var ptdd2 = ptdd1ConerAnd1Point(Math.tan(angleDeg),pointMeet.x,pointMeet.y);
+    let pointMeet2 = {
+        x : 0,
+        y : ptdd2.b
+    }
+    ctx.fillText(pointMeet.y-Math.tan(angleDeg)*pointMeet.x,200,200);
+    ctx.beginPath();
+    ctx.moveTo(pointMeet.x,pointMeet.y);
+    ctx.lineTo(pointMeet2.x,pointMeet2.y);
+    ctx.stroke();
+    ctx.closePath();
 }
 // event 
 function shoot(event){
@@ -65,4 +81,28 @@ function ptddThrough2Point(x1,y1,x2,y2){
         b :-1,
         c :b
     }
+}
+function ptdd1ConerAnd1Point(tanX,x1,y1){
+    // y = ax+b;
+    let b = y1-tanX*x1;
+    return {
+        a :tanX,
+        b :-1,
+        c :b
+    }
+}
+
+function distance2Point(x1,y1,x2,y2){
+   var result = Math.sqrt((Math.pow(x1-x2,2))+Math.pow(y1-y2,2));
+   return result;
+}
+function getAngleDeg(d,k) {
+    var angleRad = Math.atan(d/k);
+    var angleDeg = angleRad * 180 / Math.PI;
+    return(angleDeg);
+  }
+  
+function distaincePointToLine(x,y,a,b,c){
+    var result = Math.abs(a*x+b*y+c)/Math.sqrt(a*a+b*b);
+    return result;
 }
