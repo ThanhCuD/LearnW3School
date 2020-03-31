@@ -2,11 +2,30 @@ function draw(){
     drawScreen();
     //drawSquare();
     if(fgShooting){
-        circle.y-=canhDoiStart/1000;
-        circle.x-=canhKeStart/1000;
-        if(circle.y==box) {
-            fgShooting=false;
+        circle.y+=speedY;
+        circle.x+=speedX/(canhDoiStart/canhKeStart);
+        if(circle.y <= 0){
+            speedY=-speedY;
         }
+        if(circle.x >= xstart+xsize || circle.x <= 0){
+            speedX=-speedX;
+        }
+        // if(flgArrowLeft){
+        //     circle.x-=speedX/(canhDoiStart/canhKeStart);
+        // }
+        // else{
+        //     circle.x+=speedX/(canhDoiStart/canhKeStart);
+        // }
+        if(circle.y >= ystart+ysize-box){
+            fgShooting=false;
+            rootPoint = {
+                x: circle.x,
+                y: circle.y
+            }
+            speedY=-speedY;
+        }
+        
+        ctx.fillText(circle.x,200,200)
     }
     circle.draw();
     let block = new Block(xstart+5*box,ystart+5*box,"square",);
@@ -53,23 +72,17 @@ function drawArrow(mouseX,mouseY,rootX,rootY){
     ctx.stroke();
     ctx.closePath();
     
-    canhKeStart = distance2Point(xstart,ystart,xstart+xsize,ystart+ysize);
-    canhDoiStart =  distance2Point(xstart+xsize,ystart+ysize,pointChoosed.x,pointChoosed.y);
-
-    // let k = distaincePointToLine(rootX,rootY,1,0,-xstart-xsize);
-    // let d = distaincePointToLine(pointMeet.x,pointMeet.y,0,1,-ystart-ysize);
-
-    // let tanAlpha = d/k;
-    // var ptdd2 = ptdd1ConerAnd1Point(tanAlpha,pointMeet.x,pointMeet.y);
-    // let pointMeet2 = {
-    //     x : 0,
-    //     y : -ptdd2.c/ptdd2.b
-    // }
-    // ctx.beginPath();
-    // ctx.moveTo(pointMeet.x,pointMeet.y);
-    // ctx.lineTo(pointMeet2.x,pointMeet2.y);
-    // ctx.stroke();
-    // ctx.closePath();
+    if(pointChoosed.x<= rootPoint.x){
+        flgArrowLeft = true;
+        canhKeStart = distance2Point(rootPoint.x,rootPoint.y,xstart,ystart+ysize);
+        canhDoiStart =  distance2Point(xstart,ystart+ysize-box,pointChoosed.x,pointChoosed.y);
+    }
+    else {
+        flgArrowLeft = false;
+        canhKeStart = distance2Point(rootPoint.x,rootPoint.y,xstart+xsize,ystart+ysize);
+        canhDoiStart =  distance2Point(xstart+xsize,ystart+ysize-box,pointChoosed.x,pointChoosed.y);
+    }
+   
 }
 // event 
 function shoot(event){

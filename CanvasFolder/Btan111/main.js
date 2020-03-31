@@ -9,16 +9,20 @@ let ystart = 0*box;
 let turn = 0;
 let mousePosition = {
     x: xstart+ 30*box,
-    y:ystart+ysize-box
+    y: ystart+ysize-box
 }
 let rootPoint = {
-    x: xstart+ 30*box,
-    y:ystart+ysize-box
+    x: xstart + 30*box,
+    y: ystart + ysize-box
 }
+let flgArrowLeft = false;
+let fgInversion = false;
 let circle = new Circle(xstart+ 30*box,ystart+ysize-box,box,"pink");
 let fgShooting = false;
 let canhDoiStart;
 let canhKeStart;
+let speedX = box/10;
+let speedY = -box/10;
 document.addEventListener("mousemove",mouseMove);
 document.addEventListener("keydown",shoot);
 

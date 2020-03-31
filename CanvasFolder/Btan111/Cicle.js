@@ -4,7 +4,8 @@ class Circle{
         this.x = x,
         this.y =y,
         this.radius = radius,
-        this.color = color
+        this.color = color,
+        this.goLeft = true
     }
     draw(){
         ctx.beginPath();
