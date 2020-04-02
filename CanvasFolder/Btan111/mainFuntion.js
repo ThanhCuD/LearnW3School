@@ -2,8 +2,15 @@ function draw(){
     drawScreen();
     //drawSquare();
     if(fgShooting){
-        circle.y+=speedY;
-        circle.x+=speedX/(canhDoiStart/canhKeStart);
+        if(!flgArrowLeft){
+            circle.y+=speedY;
+            circle.x+=speedX/(canhDoiStart/canhKeStart);
+        }
+        else{
+            circle.y+=speedY;
+            circle.x-=speedX/(canhDoiStart/canhKeStart);
+        }
+      
         if(circle.y <= 0){
             speedY=-speedY;
         }
