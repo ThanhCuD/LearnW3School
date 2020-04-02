@@ -10,12 +10,7 @@ function draw(){
         if(circle.x >= xstart+xsize || circle.x <= 0){
             speedX=-speedX;
         }
-        // if(flgArrowLeft){
-        //     circle.x-=speedX/(canhDoiStart/canhKeStart);
-        // }
-        // else{
-        //     circle.x+=speedX/(canhDoiStart/canhKeStart);
-        // }
+        
         if(circle.y >= ystart+ysize-box){
             fgShooting=false;
             rootPoint = {
