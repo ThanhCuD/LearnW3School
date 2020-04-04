@@ -2,30 +2,37 @@ function draw(){
     drawScreen();
     //drawSquare();
     if(fgShooting){
-        if(!flgArrowLeft){
-            circle.y+=speedY;
+        if(circle.dirX){
             circle.x+=speedX/(canhDoiStart/canhKeStart);
+        }else{
+            circle.x-=speedX/(canhDoiStart/canhKeStart);
+        }
+
+        if(circle.dirY){
+            circle.y-=speedY;
         }
         else{
             circle.y+=speedY;
-            circle.x-=speedX/(canhDoiStart/canhKeStart);
         }
-      
-        if(circle.y <= 0){
-            speedY=-speedY;
+        if(circle.y <= circle.radius){
+            circle.dirY = true;
         }
-        if(circle.x >= xstart+xsize || circle.x <= 0){
-            speedX=-speedX;
-        }
-        
         if(circle.y >= ystart+ysize-box){
-            fgShooting=false;
             rootPoint = {
                 x: circle.x,
                 y: circle.y
             }
-            speedY=-speedY;
+            circle.dirY = false;
+            fgShooting = false;
         }
+
+        if(circle.x >= xstart+xsize - circle.radius){
+            circle.dirX = false;
+        }
+        if(circle.x <= circle.radius){
+            circle.dirX = true;
+        }
+        
         
         ctx.fillText(circle.x,200,200)
     }
@@ -46,7 +53,9 @@ function drawScreen() {
     ctx.closePath();
     ctx.fillStyle = "pink";
     ctx.strokeStyle = "red";
-    drawArrow(mousePosition.x,mousePosition.y,rootPoint.x,rootPoint.y);
+    if(!fgShooting){
+        drawArrow(mousePosition.x,mousePosition.y,rootPoint.x,rootPoint.y);
+    }
 }
 
 function drawSquare(){
@@ -75,12 +84,12 @@ function drawArrow(mouseX,mouseY,rootX,rootY){
     ctx.closePath();
     
     if(pointChoosed.x<= rootPoint.x){
-        flgArrowLeft = true;
+        circle.dirX = false;
         canhKeStart = distance2Point(rootPoint.x,rootPoint.y,xstart,ystart+ysize);
         canhDoiStart =  distance2Point(xstart,ystart+ysize-box,pointChoosed.x,pointChoosed.y);
     }
     else {
-        flgArrowLeft = false;
+        circle.dirX = true;
         canhKeStart = distance2Point(rootPoint.x,rootPoint.y,xstart+xsize,ystart+ysize);
         canhDoiStart =  distance2Point(xstart+xsize,ystart+ysize-box,pointChoosed.x,pointChoosed.y);
     }
