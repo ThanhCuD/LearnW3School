@@ -25,18 +25,15 @@ function draw(){
             circle.dirY = false;
             fgShooting = false;
         }
-
         if(circle.x >= xstart+xsize - circle.radius){
             circle.dirX = false;
         }
-        if(circle.x <= circle.radius){
+        if(circle.x <= circle.radius ){
             circle.dirX = true;
         }
-        
-        
-        ctx.fillText(circle.x,200,200)
     }
     circle.draw();
+    
     let block = new Block(xstart+5*box,ystart+5*box,"square",);
     block.draw();
 }

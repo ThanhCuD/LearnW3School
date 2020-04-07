@@ -18,6 +18,11 @@ let rootPoint = {
 let flgArrowLeft = false;
 let fgInversion = false;
 let circle = new Circle(xstart+ 30*box,ystart+ysize-box,box,"pink");
+let circle1 = new Circle(xstart+ 30*box,ystart+ysize-box,box,"pink");
+let arrCircle = [];
+arrCircle.push(circle);
+arrCircle.push(circle1);
+
 let fgShooting = false;
 let canhDoiStart;
 let canhKeStart;
@@ -26,6 +31,6 @@ let speedY = -box/10;
 document.addEventListener("mousemove",mouseMove);
 document.addEventListener("keydown",shoot);
 
-let game = setInterval(draw,1);
+let game = setInterval(draw,-10);
 
 
