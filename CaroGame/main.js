@@ -3,7 +3,7 @@ var isXCheck = false;
 var count = 0;
 var rowTotal = 10;
 var columnTotal = 10;
-var nWin = 2;
+var nWin = 5;
 
 window.onload = function(){
     document.getElementById("main").innerHTML = render(rowTotal,columnTotal);
