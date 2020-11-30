@@ -44,6 +44,18 @@ function CheckWin(button,text){
         if($("#but"+i+"_"+y).text()==text) {
             row++;
         }
+        var xSubY = x - y;
+        var nX = i;
+        var nY = i  - xSubY;
+        if($('#but'+nX+"_"+nY).text()==text){
+            diag++;
+        }
+        var xAddY = parseInt(x)+parseInt(y);
+        nY = xAddY - i;
+        nX = i; 
+        if($('#but'+nX+"_"+nY).text()==text){
+            rdiag++;
+        }
     }
     if(row==nWin|| col==nWin || diag==nWin || rdiag==nWin) {
         console.log(text + "Win");
