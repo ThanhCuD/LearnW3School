@@ -4,7 +4,7 @@ function render(row,column){
         resume +="<tr>";
         for (let j = 0; j < column; j++) {
             resume += "<td>";
-            resume +="<button id='but"+i+"_"+j+"' row='"+i+"'col='"+j+"'></button>";
+            resume +="<button id='but"+i+"_"+j+"' isChecked='false' row='"+i+"'col='"+j+"'></button>";
             resume +="</td>"; 
         }
         resume +="</tr>"
@@ -12,28 +12,25 @@ function render(row,column){
     resume+="</table>";
     return resume;
 }
-function Check(button){
+function Check(button,board){
     console.log(button);
     if(isXCheck){
         button.text("X");
-        CheckWin(button,"X");
-        isXCheck=!isXCheck;
+        CheckWin(button,"X", board);
+        if(!gameOver){
+            isXCheck=!isXCheck;
+        }
     }else{
         button.text("O");
-        CheckWin(button,"O");
-        isXCheck=!isXCheck;
+        CheckWin(button,"O",board);
+        if(!gameOver){
+            isXCheck=!isXCheck;
+        }
     }
+    button.attr('isChecked','true');
     count++;
 }
-// col=row=diag=rdiag=0
-// winner=false
-// for i=1 to n
-//   if cell[x,i]=player then col++
-//   if cell[i,y]=player then row++
-//   if cell[i,i]=player then diag++
-//   if cell[i,n-i+1]=player then rdiag++
-// if row=n or col=n or diag=n or rdiag=n then winner=true
-function CheckWin(button,text){
+function CheckWin(button,text,board){
     var row=col=diag=rdiag=0;
     let x = parseInt(button.attr('row'));
     let y =  parseInt(button.attr('col'));
@@ -43,44 +40,50 @@ function CheckWin(button,text){
     let rdiagArr = [];
 
     for (let i = 0; i < rowTotal; i++) {
-        if($("#but"+x+"_"+i).text()==text) {
+        var item = board[x*rowTotal + i];
+        if($(item).text()==text) {
             col++;
             colArray.push(i);
         }
-        if($("#but"+i+"_"+y).text()==text) {
+        item = board[i*rowTotal + y]
+        if($(item).text()==text) {
             row++;
             rowArray.push(i);
         }
         var xSubY = x - y;
         var nX = i;
         var nY = i  - xSubY;
-        if($('#but'+nX+"_"+nY).text()==text){
+        item = board[nX*rowTotal + nY]
+        if($(item).text()==text){
             diag++;
             diagArr.push(nX)
         }
         var xAddY = parseInt(x)+parseInt(y);
         nY = xAddY - i;
         nX = i; 
-        if($('#but'+nX+"_"+nY).text()==text){
+        item = board[nX*rowTotal + nY]
+        if($(item).text()==text){
             rdiag++;
             rdiagArr.push(nX)
         }
     }
     if(CheckWin1(colArray)) {
         console.log(text + "Win");
+        gameOver = true;
     }
     if(CheckWin1(rowArray)){
         console.log(text + "Win");
+        gameOver = true;
     }
     if(CheckWin1(diagArr)){
         console.log(text + "Win");
+        gameOver = true;
     }
     if(CheckWin1(rdiagArr)){
         console.log(text + "Win");
+        gameOver = true;
     }
-    // if(row==nWin|| col==nWin || diag==nWin || rdiag==nWin) {
-    //     console.log(text + "Win");
-    // }
+    isPlayerTurn = false;
 }
 function CheckWin1(arr){
     if(arr.length<nWin) return false;
@@ -94,6 +97,22 @@ function CheckWin1(arr){
     }
     return false;
 }
-function CheckWin2(arr){
+function CheckWhoWin(board){
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < column; j++){
 
+        }
+    }
+}
+
+/// CPT
+function CPTRun(){
+    var board = $('button');
+    console.log(board);
+    setTimeout(
+        function() 
+        {
+            console.log("run");
+            isPlayerTurn = true;
+        }, 0);
 }

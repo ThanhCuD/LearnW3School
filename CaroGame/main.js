@@ -1,16 +1,32 @@
 // current == false => X : O;
-var isXCheck = false;
+var isXCheck = true;
 var count = 0;
-var rowTotal = 10;
-var columnTotal = 10;
-var nWin = 5;
+var rowTotal = 3;
+var columnTotal = 3;
+var nWin = 3;
+var gameOver = false;
+var isPlayWithCPT = true;
+var isPlayerTurn = true;
 
 window.onload = function(){
     document.getElementById("main").innerHTML = render(rowTotal,columnTotal);
 };
 
 $( document ).ready(function() {
-    $('button').click(function(){
-        Check($(this));
-    })
+    if(isPlayWithCPT){
+        $('button').click(function(){
+            if($(this).attr('isChecked')=='false' && !gameOver && isPlayerTurn){
+                Check($(this),$('button'));
+                if(gameOver){
+                    var text = (isXCheck? "X" : "O") + " Win";
+                    // alert(text);
+                }else{
+                    CPTRun();
+                }
+            }
+        });
+    }else{
+
+    }
+   
 });
